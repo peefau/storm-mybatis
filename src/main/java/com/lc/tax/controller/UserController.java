@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,11 +27,13 @@ public class UserController {
     @Resource
     private IUserService userService;
     @RequestMapping("/showUser.do")
-    public void selectUser(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void selectUser(HttpServletRequest request, HttpServletResponse response) throws IOException
+    {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         long userId = Long.parseLong(request.getParameter("id"));
         User user = this.userService.selectUser(userId);
+        List<User> userList = userService.selectAllUser();
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(""+user.getRegTime()+","+user.getEmail());
         response.getWriter().write(mapper.writeValueAsString(user));

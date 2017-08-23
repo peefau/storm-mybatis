@@ -2,8 +2,53 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
-<mapper namespace="com.lc.tax.dao.IUserDao">
+<mapper namespace="com.lc.tax.dao.UserDaoMapper">
     <select id="selectUser" resultType="com.lc.tax.model.User" parameterType="long">
-      SELECT * FROM user WHERE id = #{id}
+      SELECT *
+      FROM user
+      WHERE id = #{id}
     </select>
+    <select id="selectAllUser" resultType="com.lc.tax.model.User">
+        SELECT * FROM user;
+    </select>
+    <insert id="insertUser" parameterType="com.lc.tax.model.User">
+        insert into user(
+        id
+        ,email
+        ,password
+        ,username
+        ,role
+        ,status
+        ,regTime
+        ,regIp
+        )
+        values
+        (#{id}
+        ,#{email}
+        ,#{password}
+        ,#{username}
+        ,#{role}
+        ,#{status}
+        ,#{regTime}
+        ,#{regIp}
+        );
+    </insert>
+    <delete id="deleteUserById" parameterType="long">
+        DELETE
+        FROM user
+        WHERE id = #{id}
+    </delete>
+    <update id="updateUserById" parameterType="com.lc.tax.model.User">
+        UPDATE user
+        SET
+        id = #{id}
+        ,email = #{email}
+        ,password = #{password}
+        ,username = #{id}
+        ,role = #{role}
+        ,status = #{status}
+        ,regTime = #{regTime}
+        ,regIp = #{regIp}
+        WHERE id = #{id}
+    </update>
 </mapper>

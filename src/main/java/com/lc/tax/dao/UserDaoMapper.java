@@ -3,6 +3,8 @@ package com.lc.tax.dao;
 import com.lc.tax.model.User;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @Author: pingfuli
  * @Description:
@@ -10,8 +12,15 @@ import org.springframework.stereotype.Repository;
  * @Modified By:
  */
 @Repository("userDao")
-public interface IUserDao {
+public interface UserDaoMapper {
 
     User selectUser(long id);
 
+    List<User> selectAllUser();
+
+    boolean insertUser(User user);
+
+    boolean deleteUserById(long id);
+
+    boolean updateUserById(User user);
 }

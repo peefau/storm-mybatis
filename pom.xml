@@ -34,9 +34,20 @@
         <spring.version>4.3.5.RELEASE</spring.version>
         <!-- mybatis版本号 -->
         <mybatis.version>3.4.4</mybatis.version>
+        <!-- storm版本号 -->
+        <storm.version>0.10.0</storm.version>
+        <!-- fast json版本号 -->
+        <fastjson.version>1.2.34</fastjson.version>
     </properties>
 
     <dependencies>
+        <!-- storm 相关依赖 begin-->
+        <dependency>
+            <groupId>org.apache.storm</groupId>
+            <artifactId>storm-core</artifactId>
+            <version>${storm.version}</version>
+        </dependency>
+        <!-- storm 相关依赖 end-->
         <!-- java ee -->
         <dependency>
             <groupId>javax</groupId>
@@ -144,7 +155,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.34</version>
+            <version>${fastjson.version}</version>
         </dependency>
         <!-- 调度框架quartz相关依赖  begin-->
         <dependency>
