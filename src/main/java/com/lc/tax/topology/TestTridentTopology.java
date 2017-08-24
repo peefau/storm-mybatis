@@ -4,26 +4,32 @@ import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.tuple.Fields;
 import backtype.storm.tuple.Values;
+import com.lc.tax.model.User;
+import com.lc.tax.serviceImpl.UserServiceImpl;
 import com.lc.tax.spout.FilterTest;
 import com.lc.tax.spout.FunctionTest;
 import com.lc.tax.spout.PrintResults;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import storm.trident.Stream;
 import storm.trident.TridentTopology;
 import storm.trident.testing.FixedBatchSpout;
+
+import java.util.List;
 
 
 public class TestTridentTopology {
 
     public static void main(String[] args) throws Exception {
-//        ApplicationContext context = new
-//                ClassPathXmlApplicationContext(new String[] {"classpath:spring-*.xml"});
-//        UserServiceImpl userService = (UserServiceImpl)context.getBean("userService");
-//
-//        List<User> userList= userService.selectAllUser();
-//        for(User user:userList)
-//        {
-//            System.out.println("records:"+user.getRegTime()+"<-->"+user.getUsername());
-//        }
+        ApplicationContext context = new
+                ClassPathXmlApplicationContext(new String[] {"classpath:spring-*.xml"});
+        UserServiceImpl userService = (UserServiceImpl)context.getBean("userService");
+
+        List<User> userList= userService.selectAllUser();
+        for(User user:userList)
+        {
+            System.out.println("records:"+user.getRegTime()+"<-->"+user.getUsername());
+        }
 
         FixedBatchSpout spout = new FixedBatchSpout(new Fields("name","idSex","tel"),
                 3, new Values("Jack","1","186107"), new Values("Tome","2","1514697"), new Values(
