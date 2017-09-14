@@ -1,14 +1,15 @@
 package com.lc.tax.controller;
 
 
-import com.lc.tax.model.User;
-import com.lc.tax.service.IUserService;
+import com.lc.tax.dao.hx_zs.ZsJksMapper;
+import com.lc.tax.pojo.hx_zs.ZsJks;
+import com.lc.tax.service.IZsJksMapperService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,18 +26,17 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     @Resource
-    private IUserService userService;
+    private IZsJksMapperService zsJksMapperService;
     @RequestMapping("/showUser.do")
     public void selectUser(HttpServletRequest request, HttpServletResponse response) throws IOException
     {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
-        long userId = Long.parseLong(request.getParameter("id"));
-        User user = this.userService.selectUser(userId);
-        List<User> userList = userService.selectAllUser();
+        String spuuid = request.getParameter("id").toString();
+        ZsJks zsJks = zsJksMapperService.selectByPrimaryKey(spuuid);
         ObjectMapper mapper = new ObjectMapper();
-        System.out.println(""+user.getRegTime()+","+user.getEmail());
-        response.getWriter().write(mapper.writeValueAsString(user));
+        System.out.println(""+zsJks.getZsuuid()+","+zsJks.getCkzhzhuuid());
+        response.getWriter().write(mapper.writeValueAsString(zsJks));
         response.getWriter().close();
     }
 }

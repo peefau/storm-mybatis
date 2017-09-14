@@ -25,7 +25,7 @@ public class TransactionalFixedBatchSpout implements IPartitionedTridentSpout<In
     private Fields m_outputFields;
     private int m_batchSize;
 
-    public TransactionalFixedBatchSpout(Fields a_outputFields, int a_batchSize, List<List<Values>> a_data) {
+    TransactionalFixedBatchSpout(Fields a_outputFields, int a_batchSize, List<List<Values>> a_data) {
         m_data = a_data;
         m_outputFields = a_outputFields;
         m_batchSize = a_batchSize;

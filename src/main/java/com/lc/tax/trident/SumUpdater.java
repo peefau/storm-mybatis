@@ -15,7 +15,6 @@ public class SumUpdater extends BaseStateUpdater<SumDB> {
             System.out.println("Got a Tuple: " + tuple);
             words.add(tuple.getString(0));
         }
-
         a_state.save(words);
     }
 }

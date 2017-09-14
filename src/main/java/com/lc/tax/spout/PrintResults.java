@@ -8,6 +8,6 @@ public class PrintResults extends BaseFunction {
 
     @Override
     public void execute(TridentTuple tuple, TridentCollector collector) {
-        System.out.println(tuple.getValues());
+        System.out.println("过滤后的数据==="+tuple.getValues());
     }
 }

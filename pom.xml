@@ -33,7 +33,7 @@
         <!-- spring版本号 -->
         <spring.version>4.3.5.RELEASE</spring.version>
         <!-- mybatis版本号 -->
-        <mybatis.version>3.4.4</mybatis.version>
+        <mybatis.version>3.2.8</mybatis.version>
         <!-- storm版本号 -->
         <storm.version>0.10.0</storm.version>
         <!-- fast json版本号 -->
@@ -41,11 +41,28 @@
     </properties>
 
     <dependencies>
+        <dependency>
+        <groupId>org.apache.hbase</groupId>
+        <artifactId>hbase-client</artifactId>
+        <version>1.3.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <!-- storm 相关依赖 begin-->
         <dependency>
             <groupId>org.apache.storm</groupId>
             <artifactId>storm-core</artifactId>
             <version>${storm.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-over-slf4j</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- storm 相关依赖 end-->
         <!-- java ee -->
@@ -87,14 +104,23 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>6.0.6</version>
-            <scope>runtime</scope>
         </dependency>
-
-        <!-- 数据库连接池 -->
         <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc6</artifactId>
+            <version>11.2.0.3</version>
+        </dependency>
+        <!-- 数据库连接池 -->
+        <!--<dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
             <version>0.9.5.2</version>
+        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.0.23</version>
         </dependency>
 
         <!-- MyBatis -->
@@ -108,7 +134,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-spring</artifactId>
-            <version>1.3.1</version>
+            <version>1.2.2</version>
         </dependency>
 
         <!-- Spring -->
@@ -193,6 +219,13 @@
             <version>1.2.17</version>
         </dependency>
         <!-- 调度框架quartz相关依赖  end-->
+        <!-- mybatis生成POJO相关jar依赖 begin-->
+        <dependency>
+            <groupId>org.mybatis.generator</groupId>
+            <artifactId>mybatis-generator-core</artifactId>
+            <version>1.3.5</version>
+        </dependency>
+        <!-- mybatis生成POJO相关依赖 end-->
     </dependencies>
     <build>
         <finalName>storm-mybatis-build</finalName>
@@ -200,6 +233,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.0</version>
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                 </configuration>
@@ -233,12 +267,32 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
                 </configuration>
             </plugin>
-        </plugins>
+            <!-- mybatis逆向工程 -->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>1.3.5</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>6.0.6</version>
+                    </dependency>
 
+                </dependencies>
+                <configuration>
+                    <!--配置文件的位置-->
+                    <configurationFile>src/main/resources/pojo_generator_config.xml</configurationFile>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>
